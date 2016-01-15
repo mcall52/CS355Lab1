@@ -4,15 +4,18 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.Iterator;
+
+import cs355.GUIFunctions;
 
 public class Controller implements CS355Controller, MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
+		GUIFunctions.printf("Point Clicked: %s", point.toString());
 	}
 
 	@Override
@@ -29,14 +32,14 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
+		GUIFunctions.printf("Point Pressed: %s", point.toString());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
+		GUIFunctions.printf("Point Released: %s", point.toString());
 	}
 
 	@Override
