@@ -2,10 +2,12 @@ package cs355.controller;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.util.Iterator;
 
-public class Controller implements CS355Controller {
+public class Controller implements CS355Controller, MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
