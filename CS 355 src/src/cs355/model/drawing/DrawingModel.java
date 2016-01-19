@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DrawingModel extends CS355Drawing {
 
-	ArrayList<Shape> shapes = new ArrayList();
+	private ArrayList<Shape> shapes = new ArrayList();
 	
 	@Override
 	public Shape getShape(int index) {
@@ -16,6 +16,8 @@ public class DrawingModel extends CS355Drawing {
 	@Override
 	public int addShape(Shape s) {
 		shapes.add(0, s);
+		this.setChanged();
+		this.notifyObservers();
 		return 0;
 	}
 
@@ -48,7 +50,6 @@ public class DrawingModel extends CS355Drawing {
 		shapes.add(index - 1, shape);
 	}
 
-	@Override
 	public List<Shape> getShapes() {
 		return shapes;
 	}

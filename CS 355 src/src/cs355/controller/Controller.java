@@ -5,13 +5,37 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import cs355.GUIFunctions;
+import cs355.model.drawing.CS355Drawing;
+import cs355.model.drawing.DrawingModel;
+import cs355.model.drawing.Shape;
+import cs355.view.View;
 
 public class Controller implements CS355Controller, MouseListener, MouseMotionListener {
 
+	//private View view;
+	private DrawingModel model;
+	private enum CurShape{
+		SELECT, CIRCLE, ELIPSE, LINE, SQUARE, RECTANGLE, TRIANGLE
+	}
+	
+	private Point2D.Double firstclick;
+	private Point2D.Double secondclick;
+	private Point2D.Double thirdclick;
+	
+	private CurShape curshape;
+	
+	public Controller(){
+		model = new DrawingModel();
+		curshape = CurShape.SELECT;
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
@@ -34,18 +58,31 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	public void mousePressed(MouseEvent arg0) {
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
 		GUIFunctions.printf("Point Pressed: %s", point.toString());
+		firstclick = (Double) point.clone();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
 		GUIFunctions.printf("Point Released: %s", point.toString());
+		secondclick = (Double) point.clone();
+		//Draw
+		//make a shape
+		switch (curshape){
+			case LINE :			drawline(); break;
+			case RECTANGLE :	drawrectangle(); break;
+			case SQUARE :		drawsquare(); break;
+			case ELIPSE :		drawelipse(); break;
+			case CIRCLE :		drawcircle(); break;
+			case TRIANGLE :		drawtriangle(); break;
+		}
+		
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
+		secondclick = (Double) point.clone();
 	}
 
 	@Override
@@ -62,44 +99,37 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 
 	@Override
 	public void lineButtonHit() {
-		// TODO Auto-generated method stub
-
+		curshape = CurShape.LINE;
 	}
 
 	@Override
 	public void squareButtonHit() {
-		// TODO Auto-generated method stub
-
+		curshape = CurShape.SQUARE;
 	}
 
 	@Override
 	public void rectangleButtonHit() {
-		// TODO Auto-generated method stub
-
+		curshape = CurShape.RECTANGLE;
 	}
 
 	@Override
 	public void circleButtonHit() {
-		// TODO Auto-generated method stub
-
+		curshape = CurShape.CIRCLE;
 	}
 
 	@Override
 	public void ellipseButtonHit() {
-		// TODO Auto-generated method stub
-
+		curshape = CurShape.ELIPSE;
 	}
 
 	@Override
 	public void triangleButtonHit() {
-		// TODO Auto-generated method stub
-
+		curshape = CurShape.TRIANGLE;
 	}
 
 	@Override
 	public void selectButtonHit() {
-		// TODO Auto-generated method stub
-
+		curshape = CurShape.SELECT;
 	}
 
 	@Override
@@ -146,8 +176,7 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 
 	@Override
 	public void openImage(File file) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -164,14 +193,12 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 
 	@Override
 	public void saveDrawing(File file) {
-		// TODO Auto-generated method stub
-
+		model.save(file);
 	}
 
 	@Override
 	public void openDrawing(File file) {
-		// TODO Auto-generated method stub
-
+		model.open(file);
 	}
 
 	@Override
@@ -245,5 +272,35 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 		// TODO Auto-generated method stub
 
 	}
+	
+	//Drawing methods
+	private void drawtriangle() {
+		// TODO Auto-generated method stub
+		
+	}
 
+	private void drawcircle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void drawelipse() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void drawsquare() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void drawrectangle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void drawline() {
+		// TODO Auto-generated method stub
+		
+	}
 }

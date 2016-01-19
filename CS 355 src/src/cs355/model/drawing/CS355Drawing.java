@@ -86,7 +86,10 @@ public abstract class CS355Drawing extends Observable {
 	 * Get the list of the shapes in this model.
 	 * @return the list of shapes.
 	 */
-	public abstract List<Shape> getShapes();
+	public List<Shape> getShapes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	/**
 	 * Get the reversed list of the shapes in this model.
