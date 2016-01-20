@@ -1,6 +1,8 @@
 package drawing;
 
-public abstract class DrawableShape {
+import java.awt.Graphics2D;
 
-	public abstract void draw();
+public interface DrawableShape {
+
+	public void draw(Graphics2D g2g);
 }

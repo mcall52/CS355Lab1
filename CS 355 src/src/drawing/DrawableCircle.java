@@ -1,11 +1,20 @@
 package drawing;
 
-import cs355.model.drawing.DrawingModel;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D.Double;
 
-public class DrawableCircle extends DrawableShape {
+import cs355.model.drawing.Circle;
+
+public class DrawableCircle extends Circle implements DrawableShape {
+
+	public DrawableCircle(Color color, Double center, double radius) {
+		super(color, center, radius);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
-	public void draw() {
+	public void draw(Graphics2D g2g) {
 		// TODO Auto-generated method stub
 		
 	}

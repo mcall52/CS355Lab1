@@ -14,13 +14,18 @@ import java.util.List;
 import cs355.GUIFunctions;
 import cs355.model.drawing.CS355Drawing;
 import cs355.model.drawing.DrawingModel;
+import cs355.model.drawing.Line;
+import cs355.model.drawing.Rectangle;
 import cs355.model.drawing.Shape;
+import cs355.model.drawing.Triangle;
 import cs355.view.View;
 
 public class Controller implements CS355Controller, MouseListener, MouseMotionListener {
 
 	//private View view;
 	private DrawingModel model;
+	private Color curcolor;
+	private View view;
 	private enum CurShape{
 		SELECT, CIRCLE, ELIPSE, LINE, SQUARE, RECTANGLE, TRIANGLE
 	}
@@ -31,9 +36,12 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	
 	private CurShape curshape;
 	
-	public Controller(){
+	public Controller(View view){
 		model = new DrawingModel();
 		curshape = CurShape.SELECT;
+		curcolor = Color.WHITE;
+		this.view = view;
+		view.addModel(model);
 	}
 	
 	@Override
@@ -69,12 +77,12 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 		//Draw
 		//make a shape
 		switch (curshape){
-			case LINE :			drawline(); break;
-			case RECTANGLE :	drawrectangle(); break;
-			case SQUARE :		drawsquare(); break;
-			case ELIPSE :		drawelipse(); break;
-			case CIRCLE :		drawcircle(); break;
-			case TRIANGLE :		drawtriangle(); break;
+			case LINE :			createline(); break;
+			case RECTANGLE :	createrectangle(); break;
+			case SQUARE :		createsquare(); break;
+			case ELIPSE :		createelipse(); break;
+			case CIRCLE :		createcircle(); break;
+			case TRIANGLE :		createtriangle(); break;
 		}
 		
 	}
@@ -274,32 +282,38 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	}
 	
 	//Drawing methods
-	private void drawtriangle() {
+	private void createtriangle() {
+		Triangle triangle = new Triangle(curcolor, firstclick, secondclick, thirdclick);
+		model.addShape(triangle);
+		clearpoints();
+	}
+
+	private void createcircle() {
+		// Circle circle = new Circle(curcolor, center, radius);
+		
+	}
+
+	private void createelipse() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void drawcircle() {
-		// TODO Auto-generated method stub
+	private void createsquare() {
+		// Square Square = new Square(curcolor, upperleft, size);
 		
 	}
 
-	private void drawelipse() {
-		// TODO Auto-generated method stub
-		
+	private void createrectangle() {
+		//Rectangle rectangle = new Rectangle(curcolor, upperleft, width, height);
 	}
 
-	private void drawsquare() {
-		// TODO Auto-generated method stub
-		
+	private void createline() {
+		Line line = new Line(curcolor, firstclick, secondclick);
+		model.addShape(line);
+		clearpoints();
 	}
 
-	private void drawrectangle() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void drawline() {
+	private void clearpoints() {
 		// TODO Auto-generated method stub
 		
 	}
