@@ -30,9 +30,12 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 		SELECT, CIRCLE, ELIPSE, LINE, SQUARE, RECTANGLE, TRIANGLE
 	}
 	
-	private Point2D.Double firstclick;
-	private Point2D.Double secondclick;
-	private Point2D.Double thirdclick;
+	private Point2D.Double firstclick = null;
+	private Point2D.Double secondclick = null;
+	private Point2D.Double thirdclick = null;
+	
+	private Point2D.Double startclick;
+	private Point2D.Double endclick;
 	
 	private CurShape curshape;
 	
@@ -48,6 +51,18 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	public void mouseClicked(MouseEvent arg0) {
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
 		GUIFunctions.printf("Point Clicked: %s", point.toString());
+		
+		if(firstclick == null){
+			firstclick = point;
+		}
+		else if(secondclick == null){
+			secondclick = point;
+		}
+		else{
+			thirdclick = point;
+			createtriangle();
+			clearpoints();
+		}
 	}
 
 	@Override
@@ -66,14 +81,14 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	public void mousePressed(MouseEvent arg0) {
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
 		GUIFunctions.printf("Point Pressed: %s", point.toString());
-		firstclick = (Double) point.clone();
+		startclick = (Double) point.clone();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
 		GUIFunctions.printf("Point Released: %s", point.toString());
-		secondclick = (Double) point.clone();
+		endclick = (Double) point.clone();
 		//Draw
 		//make a shape
 		switch (curshape){
@@ -82,7 +97,7 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 			case SQUARE :		createsquare(); break;
 			case ELIPSE :		createelipse(); break;
 			case CIRCLE :		createcircle(); break;
-			case TRIANGLE :		createtriangle(); break;
+			//case TRIANGLE :		createtriangle(); break;
 		}
 		
 	}
@@ -90,7 +105,7 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
-		secondclick = (Double) point.clone();
+		endclick = (Double) point.clone();
 	}
 
 	@Override
@@ -108,36 +123,43 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	@Override
 	public void lineButtonHit() {
 		curshape = CurShape.LINE;
+		clearpoints();
 	}
 
 	@Override
 	public void squareButtonHit() {
 		curshape = CurShape.SQUARE;
+		clearpoints();
 	}
 
 	@Override
 	public void rectangleButtonHit() {
 		curshape = CurShape.RECTANGLE;
+		clearpoints();
 	}
 
 	@Override
 	public void circleButtonHit() {
 		curshape = CurShape.CIRCLE;
+		clearpoints();
 	}
 
 	@Override
 	public void ellipseButtonHit() {
 		curshape = CurShape.ELIPSE;
+		clearpoints();
 	}
 
 	@Override
 	public void triangleButtonHit() {
 		curshape = CurShape.TRIANGLE;
+		clearpoints();
 	}
 
 	@Override
 	public void selectButtonHit() {
 		curshape = CurShape.SELECT;
+		clearpoints();
 	}
 
 	@Override
@@ -308,13 +330,18 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	}
 
 	private void createline() {
-		Line line = new Line(curcolor, firstclick, secondclick);
+		Line line = new Line(curcolor, startclick, endclick);
 		model.addShape(line);
 		clearpoints();
 	}
 
 	private void clearpoints() {
 		// TODO Auto-generated method stub
+		firstclick = null;
+		secondclick = null;
+		thirdclick = null;
 		
+		startclick = null;
+		endclick = null;
 	}
 }
