@@ -15,7 +15,7 @@ public class DrawingModel extends CS355Drawing {
 
 	@Override
 	public int addShape(Shape s) {
-		shapes.add(0, s);
+		shapes.add(s);
 		this.setChanged();
 		this.notifyObservers();
 		return 0;

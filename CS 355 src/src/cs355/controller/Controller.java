@@ -13,10 +13,13 @@ import java.util.List;
 
 import cs355.GUIFunctions;
 import cs355.model.drawing.CS355Drawing;
+import cs355.model.drawing.Circle;
 import cs355.model.drawing.DrawingModel;
+import cs355.model.drawing.Ellipse;
 import cs355.model.drawing.Line;
 import cs355.model.drawing.Rectangle;
 import cs355.model.drawing.Shape;
+import cs355.model.drawing.Square;
 import cs355.model.drawing.Triangle;
 import cs355.view.View;
 
@@ -27,7 +30,7 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	private Color curcolor;
 	private View view;
 	private enum CurShape{
-		SELECT, CIRCLE, ELIPSE, LINE, SQUARE, RECTANGLE, TRIANGLE
+		SELECT, CIRCLE, ELLIPSE, LINE, SQUARE, RECTANGLE, TRIANGLE
 	}
 	
 	private Point2D.Double firstclick = null;
@@ -89,15 +92,14 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
 		GUIFunctions.printf("Point Released: %s", point.toString());
 		endclick = (Double) point.clone();
+		
 		//Draw
-		//make a shape
 		switch (curshape){
 			case LINE :			createline(); break;
 			case RECTANGLE :	createrectangle(); break;
 			case SQUARE :		createsquare(); break;
-			case ELIPSE :		createelipse(); break;
+			case ELLIPSE :		createellipse(); break;
 			case CIRCLE :		createcircle(); break;
-			//case TRIANGLE :		createtriangle(); break;
 		}
 		
 	}
@@ -105,7 +107,22 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
+		Point2D.Double tempstart = startclick;
+		Point2D.Double tempend = point;
 		endclick = (Double) point.clone();
+		
+		switch (curshape){
+			case LINE 		:		createline(); break;
+			case RECTANGLE 	:		createrectangle(); break;
+			case SQUARE 	:		createsquare(); break;
+			case ELLIPSE 	:		createellipse(); break;
+			case CIRCLE 	:		createcircle(); break;
+		}
+		startclick = tempstart;
+		endclick = tempend;
+		model.deleteShape(model.getShapes().size() - 1);
+		
+		
 	}
 
 	@Override
@@ -116,8 +133,8 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 
 	@Override
 	public void colorButtonHit(Color c) {
-		// TODO Auto-generated method stub
-
+		GUIFunctions.changeSelectedColor(c);
+		curcolor = c;
 	}
 
 	@Override
@@ -146,7 +163,7 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 
 	@Override
 	public void ellipseButtonHit() {
-		curshape = CurShape.ELIPSE;
+		curshape = CurShape.ELLIPSE;
 		clearpoints();
 	}
 
@@ -311,18 +328,69 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	}
 
 	private void createcircle() {
-		// Circle circle = new Circle(curcolor, center, radius);
+		double width = Math.abs(startclick.getX() - endclick.getX());
+		double height = Math.abs(startclick.getY() - endclick.getY());
+		Point2D.Double center = new Point2D.Double(averageOf(startclick.getX(), endclick.getX()), 
+				averageOf(startclick.getY(), endclick.getY()));
+		
+		double radius = width / 2;
+		if(width < height){
+			radius = height / 2;
+		}
+		
+		Circle circle = new Circle(curcolor, center, radius);
+		//Ellipse ellipse = new Ellipse(curcolor, center, width, height);
+		model.addShape(circle);
+		clearpoints();
 		
 	}
 
-	private void createelipse() {
-		// TODO Auto-generated method stub
+	private void createellipse() {
+		double width = Math.abs(startclick.getX() - endclick.getX());
+		double height = Math.abs(startclick.getY() - endclick.getY());
+		Point2D.Double center = new Point2D.Double(averageOf(startclick.getX(), endclick.getX()), 
+				averageOf(startclick.getY(), endclick.getY()));
 		
+		Ellipse ellipse = new Ellipse(curcolor, center, width, height);
+		model.addShape(ellipse);
+		clearpoints();
 	}
 
 	private void createsquare() {
-		// Square Square = new Square(curcolor, upperleft, size);
+		double width = Math.abs(startclick.getX() - endclick.getX());
+		double height = Math.abs(startclick.getY() - endclick.getY());
+		double size;
 		
+		size = width * 2;
+		if(height > width){
+			size = width * 2;
+		}
+		
+		Point2D.Double upperleft;
+		
+		//1st Quadrant (bottom-right)
+		if(startclick.getX() < endclick.getX() 
+				&& startclick.getY() < endclick.getY()){
+			upperleft = new Point2D.Double(startclick.getX(), startclick.getY());
+		}
+		//2nd Quadrant (bottom-left)
+		else if(startclick.getX() > endclick.getX()
+				&& startclick.getY() < endclick.getY()){
+			upperleft = new Point2D.Double(endclick.getX(), startclick.getY());
+		}
+		//3rd Quadrant (top-left)
+		else if(startclick.getX() > endclick.getX()
+				&& startclick.getY() > endclick.getY()){
+			upperleft = new Point2D.Double(endclick.getX(), endclick.getY());
+		}
+		//4th Quadrant (top-right)
+		else{
+			upperleft = new Point2D.Double(startclick.getX(), endclick.getY());
+		}
+		
+		Square square = new Square(curcolor, upperleft, size);
+		model.addShape(square);
+		clearpoints();
 	}
 
 	private void createrectangle() {
@@ -370,5 +438,10 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 		
 		startclick = null;
 		endclick = null;
+	}
+	
+	private double averageOf(double num1, double num2){
+		double added = num1 + num2;
+		return added / 2;
 	}
 }

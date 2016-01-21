@@ -18,6 +18,7 @@ public class DrawableTriangle extends Triangle implements DrawableShape {
 	@Override
 	public void draw(Graphics2D g2g) {
 		// TODO Auto-generated method stub
+		g2g.setColor(this.getColor());
 		int[] xpoints = new int[]{(int) this.getA().getX(), 
 				(int) this.getB().getX(), (int) this.getC().getX()};
 		int[] ypoints = new int[]{(int) this.getA().getY(), 

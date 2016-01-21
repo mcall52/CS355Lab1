@@ -15,8 +15,9 @@ public class DrawableSquare extends Square implements DrawableShape {
 
 	@Override
 	public void draw(Graphics2D g2g) {
-		// TODO Auto-generated method stub
-		
+		g2g.setColor(this.getColor());
+		g2g.fillRect((int) this.getUpperLeft().getX(), (int) this.getUpperLeft().getY(),
+				(int) this.getSize()/2, (int) this.getSize()/2);
 	}
 
 }

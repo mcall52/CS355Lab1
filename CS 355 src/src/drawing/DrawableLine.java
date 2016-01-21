@@ -15,6 +15,7 @@ public class DrawableLine extends Line implements DrawableShape {
 
 	@Override
 	public void draw(Graphics2D g2g) {
+		g2g.setColor(this.getColor());
 		g2g.drawLine((int)this.getStart().getX(), 
 				(int)this.getStart().getY(), (int)this.getEnd().getX(), (int)this.getEnd().getY());
 		

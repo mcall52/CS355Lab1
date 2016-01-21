@@ -15,6 +15,7 @@ public class DrawableRectangle extends Rectangle implements DrawableShape {
 
 	@Override
 	public void draw(Graphics2D g2g) {
+		g2g.setColor(this.getColor());
 		g2g.fillRect((int) this.getUpperLeft().getX(), (int) this.getUpperLeft().getY(), 
 				(int) this.getWidth(), (int) this.getHeight());
 	}

@@ -15,8 +15,9 @@ public class DrawableCircle extends Circle implements DrawableShape {
 
 	@Override
 	public void draw(Graphics2D g2g) {
-		// TODO Auto-generated method stub
-		
+		g2g.setColor(this.getColor());
+		g2g.fillOval((int) this.getCenter().getX(), (int) this.getCenter().getY(), 
+				(int) this.getRadius() * 2, (int) this.getRadius() * 2);
 	}
 
 }
