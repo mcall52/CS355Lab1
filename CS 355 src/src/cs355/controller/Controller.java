@@ -326,7 +326,34 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	}
 
 	private void createrectangle() {
-		//Rectangle rectangle = new Rectangle(curcolor, upperleft, width, height);
+		double width = Math.abs(startclick.getX() - endclick.getX());
+		double height = Math.abs(startclick.getY() - endclick.getY());
+		Point2D.Double upperleft;
+		
+		
+		//1st Quadrant (bottom-right)
+		if(startclick.getX() < endclick.getX() 
+				&& startclick.getY() < endclick.getY()){
+			upperleft = new Point2D.Double(startclick.getX(), startclick.getY());
+		}
+		//2nd Quadrant (bottom-left)
+		else if(startclick.getX() > endclick.getX()
+				&& startclick.getY() < endclick.getY()){
+			upperleft = new Point2D.Double(endclick.getX(), startclick.getY());
+		}
+		//3rd Quadrant (top-left)
+		else if(startclick.getX() > endclick.getX()
+				&& startclick.getY() > endclick.getY()){
+			upperleft = new Point2D.Double(endclick.getX(), endclick.getY());
+		}
+		//4th Quadrant (top-right)
+		else{
+			upperleft = new Point2D.Double(startclick.getX(), endclick.getY());
+		}
+			
+		Rectangle rectangle = new Rectangle(curcolor, upperleft, width, height);
+		model.addShape(rectangle);
+		clearpoints();
 	}
 
 	private void createline() {
