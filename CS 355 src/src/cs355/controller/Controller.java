@@ -95,11 +95,22 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 		
 		//Draw
 		switch (curshape){
-			case LINE :			createline(); break;
-			case RECTANGLE :	createrectangle(); break;
-			case SQUARE :		createsquare(); break;
-			case ELLIPSE :		createellipse(); break;
-			case CIRCLE :		createcircle(); break;
+			case LINE 		:	createline(); break;
+			case RECTANGLE 	:	createrectangle(); break;
+			case SQUARE 	:	createsquare(); break;
+			case ELLIPSE 	:	createellipse(); break;
+			case CIRCLE 	:	createcircle(); break;
+//			case TRIANGLE	:	if(firstclick == null){
+//									firstclick = point;
+//								}
+//								else if(secondclick == null){
+//									secondclick = point;
+//								}
+//								else{
+//									thirdclick = point;
+//									createtriangle();
+//									clearpoints();
+//								}
 		}
 		
 	}
@@ -118,10 +129,11 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 			case ELLIPSE 	:		createellipse(); break;
 			case CIRCLE 	:		createcircle(); break;
 		}
-		startclick = tempstart;
-		endclick = tempend;
-		model.deleteShape(model.getShapes().size() - 1);
-		
+		if(curshape != CurShape.TRIANGLE){
+			startclick = tempstart;
+			endclick = tempend;
+			model.deleteShape(model.getShapes().size() - 1);
+		}
 		
 	}
 
@@ -334,7 +346,7 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 				averageOf(startclick.getY(), endclick.getY()));
 		
 		double radius = width / 2;
-		if(width < height){
+		if(width > height){
 			radius = height / 2;
 		}
 		
@@ -362,8 +374,8 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 		double size;
 		
 		size = width * 2;
-		if(height > width){
-			size = width * 2;
+		if(height < width){
+			size = height * 2;
 		}
 		
 		Point2D.Double upperleft;
@@ -376,16 +388,16 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 		//2nd Quadrant (bottom-left)
 		else if(startclick.getX() > endclick.getX()
 				&& startclick.getY() < endclick.getY()){
-			upperleft = new Point2D.Double(endclick.getX(), startclick.getY());
+			upperleft = new Point2D.Double(startclick.getX() - (size/2), startclick.getY());
 		}
 		//3rd Quadrant (top-left)
 		else if(startclick.getX() > endclick.getX()
 				&& startclick.getY() > endclick.getY()){
-			upperleft = new Point2D.Double(endclick.getX(), endclick.getY());
+			upperleft = new Point2D.Double(startclick.getX() - (size/2), startclick.getY() - (size/2));
 		}
 		//4th Quadrant (top-right)
 		else{
-			upperleft = new Point2D.Double(startclick.getX(), endclick.getY());
+			upperleft = new Point2D.Double(startclick.getX(), startclick.getY() - (size/2));
 		}
 		
 		Square square = new Square(curcolor, upperleft, size);
