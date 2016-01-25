@@ -342,13 +342,41 @@ public class Controller implements CS355Controller, MouseListener, MouseMotionLi
 	private void createcircle() {
 		double width = Math.abs(startclick.getX() - endclick.getX());
 		double height = Math.abs(startclick.getY() - endclick.getY());
-		Point2D.Double center = new Point2D.Double(averageOf(startclick.getX(), endclick.getX()), 
-				averageOf(startclick.getY(), endclick.getY()));
+		String longestEdge = "width";
 		
 		double radius = width / 2;
 		if(width > height){
 			radius = height / 2;
+			longestEdge = "height";
 		}
+		Point2D.Double center;
+		
+		//find center for each coordinate according to shortest side (width or height)
+		//1st Quadrant (bottom-right)
+		if(startclick.getX() < endclick.getX() 
+				&& startclick.getY() < endclick.getY()){
+			center = new Point2D.Double(averageOf(startclick.getX(), startclick.getX() + radius * 2), 
+					averageOf(startclick.getY(), startclick.getY() + radius * 2));
+		}
+		//2nd Quadrant (bottom-left)
+		else if(startclick.getX() > endclick.getX()
+				&& startclick.getY() < endclick.getY()){
+			center = new Point2D.Double(averageOf(startclick.getX(), startclick.getX() - radius * 2), 
+					averageOf(startclick.getY(), startclick.getY() + radius * 2));
+		}
+		//3rd Quadrant (top-left)
+		else if(startclick.getX() > endclick.getX()
+				&& startclick.getY() > endclick.getY()){
+			center = new Point2D.Double(averageOf(startclick.getX(), startclick.getX() - radius * 2), 
+					averageOf(startclick.getY(), startclick.getY() - radius * 2));		
+		}
+		//4th Quadrant (top-right)
+		else{
+			center = new Point2D.Double(averageOf(startclick.getX(), startclick.getX() + radius * 2), 
+					averageOf(startclick.getY(), startclick.getY() - radius * 2));
+		}
+//		Point2D.Double center = new Point2D.Double(averageOf(startclick.getX(), endclick.getX()), 
+//				averageOf(startclick.getY(), endclick.getY()));
 		
 		Circle circle = new Circle(curcolor, center, radius);
 		//Ellipse ellipse = new Ellipse(curcolor, center, width, height);
